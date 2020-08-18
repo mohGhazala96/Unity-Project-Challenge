@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
@@ -26,79 +27,90 @@ public class UIManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (CameraCreationController.Instance != null)
+        {
 
-        xRotationSlider.onValueChanged.AddListener(delegate { UpdateCameraRotation(); });
-        yRotationSlider.onValueChanged.AddListener(delegate { UpdateCameraRotation(); });
-        zRotationSlider.onValueChanged.AddListener(delegate { UpdateCameraRotation(); });
+            xRotationSlider.onValueChanged.AddListener(delegate { UpdateCameraRotation(); });
+            yRotationSlider.onValueChanged.AddListener(delegate { UpdateCameraRotation(); });
+            zRotationSlider.onValueChanged.AddListener(delegate { UpdateCameraRotation(); });
 
-        xPositionSlider.onValueChanged.AddListener(delegate { UpdateCameraPosition(); });
-        yPositionSlider.onValueChanged.AddListener(delegate { UpdateCameraPosition(); });
-        zPositionSlider.onValueChanged.AddListener(delegate { UpdateCameraPosition(); });
+            xPositionSlider.onValueChanged.AddListener(delegate { UpdateCameraPosition(); });
+            yPositionSlider.onValueChanged.AddListener(delegate { UpdateCameraPosition(); });
+            zPositionSlider.onValueChanged.AddListener(delegate { UpdateCameraPosition(); });
 
-        lensLengthSlider.onValueChanged.AddListener(delegate { UpdateCameraLens(); });
-        ResetCameraParameters();
+            lensLengthSlider.onValueChanged.AddListener(delegate { UpdateCameraLens(); });
+            ResetCameraParameters();
+        }
     }
 
     void InitValues()
     {
 
 
-        xRotationSlider.minValue = SceneController.minimumAngleValue;
-        xRotationSlider.maxValue = SceneController.maximumAngleValue;
-        xRotationSlider.value = SceneController.Instance.intialCameraRotation.x;
+            xRotationSlider.minValue = CameraCreationController.minimumAngleValue;
+            xRotationSlider.maxValue = CameraCreationController.maximumAngleValue;
+            xRotationSlider.value = CameraCreationController.Instance.intialCameraRotation.x;
 
-        yRotationSlider.minValue = SceneController.minimumAngleValue;
-        yRotationSlider.maxValue = SceneController.maximumAngleValue;
-        yRotationSlider.value = SceneController.Instance.intialCameraRotation.y;
+            yRotationSlider.minValue = CameraCreationController.minimumAngleValue;
+            yRotationSlider.maxValue = CameraCreationController.maximumAngleValue;
+            yRotationSlider.value = CameraCreationController.Instance.intialCameraRotation.y;
 
-        zRotationSlider.minValue = SceneController.minimumAngleValue;
-        zRotationSlider.maxValue = SceneController.maximumAngleValue;
-        zRotationSlider.value = SceneController.Instance.intialCameraRotation.z;
+            zRotationSlider.minValue = CameraCreationController.minimumAngleValue;
+            zRotationSlider.maxValue = CameraCreationController.maximumAngleValue;
+            zRotationSlider.value = CameraCreationController.Instance.intialCameraRotation.z;
 
-        xPositionSlider.minValue = SceneController.minimum2DPosition;
-        xPositionSlider.maxValue = SceneController.maximum2DPosition;
-        xPositionSlider.value = SceneController.Instance.initialCameraPosition.x;
+            xPositionSlider.minValue = CameraCreationController.minimum2DPosition;
+            xPositionSlider.maxValue = CameraCreationController.maximum2DPosition;
+            xPositionSlider.value = CameraCreationController.Instance.initialCameraPosition.x;
 
-        yPositionSlider.minValue =SceneController.minimumVerticalPosition;
-        yPositionSlider.maxValue = SceneController.maximumVerticalPosition;
-        yPositionSlider.value = SceneController.Instance.initialCameraPosition.y;
+            yPositionSlider.minValue = CameraCreationController.minimumVerticalPosition;
+            yPositionSlider.maxValue = CameraCreationController.maximumVerticalPosition;
+            yPositionSlider.value = CameraCreationController.Instance.initialCameraPosition.y;
 
 
-        zPositionSlider.minValue = SceneController.minimum2DPosition;
-        zPositionSlider.maxValue = SceneController.maximum2DPosition;
-        zPositionSlider.value = SceneController.Instance.initialCameraPosition.z;
+            zPositionSlider.minValue = CameraCreationController.minimum2DPosition;
+            zPositionSlider.maxValue = CameraCreationController.maximum2DPosition;
+            zPositionSlider.value = CameraCreationController.Instance.initialCameraPosition.z;
 
-        lensLengthSlider.minValue = SceneController.minimumLensLength;
-        lensLengthSlider.maxValue = SceneController.maximumLensLegnth;
-        lensLengthSlider.value = SceneController.lensLength;
+            lensLengthSlider.minValue = CameraCreationController.minimumLensLength;
+            lensLengthSlider.maxValue = CameraCreationController.maximumLensLegnth;
+            lensLengthSlider.value = CameraCreationController.lensLength;
+        
+
 
     }
 
     void UpdateCameraRotation()
     {
-        if (SceneController.Instance != null)
+        if (CameraCreationController.Instance != null)
         {
-            SceneController.Instance.ChangeCameraRotation(xRotationSlider.value, yRotationSlider.value, zRotationSlider.value);
+            CameraCreationController.Instance.ChangeCameraRotation(xRotationSlider.value, yRotationSlider.value, zRotationSlider.value);
             UpdateTextUi();
         }
     }
 
     void UpdateCameraPosition()
     {
-        if (SceneController.Instance != null)
+        if (CameraCreationController.Instance != null)
         {
-            SceneController.Instance.ChangeCameraPosition(xPositionSlider.value, yPositionSlider.value, zPositionSlider.value);
+            CameraCreationController.Instance.ChangeCameraPosition(xPositionSlider.value, yPositionSlider.value, zPositionSlider.value);
             UpdateTextUi();
         }
     }
 
     void UpdateCameraLens()
     {
-        if (SceneController.Instance != null)
+        if (CameraCreationController.Instance != null)
         {
-            SceneController.Instance.ChangeCameraLensLegth(lensLengthSlider.value);
+            CameraCreationController.Instance.ChangeCameraLensLegth(lensLengthSlider.value);
             UpdateTextUi();
         }
+    }
+
+    public void SaveCamera()
+    {
+        CameraCreationController.Instance.SaveCamera();
+        SceneManager.LoadScene("Main Scene");
     }
 
     public void ResetCameraParameters()
@@ -116,6 +128,13 @@ public class UIManager : MonoBehaviour
         yPositionText.text = "Vertical Position : " + (int)yPositionSlider.value;
         zPositionText.text = "Forward Position : " + (int)zPositionSlider.value;
         lensLengthText.text = "Length : " + (int)lensLengthSlider.value;
+    }
+
+    public void CreateNewCamera()
+    {
+        SceneManager.LoadScene("Camera Creation");
+        //Main Scene
+        //Main Scene
     }
 
     // Update is called once per frame

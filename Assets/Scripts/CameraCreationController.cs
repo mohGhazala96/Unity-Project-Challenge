@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SceneController : MonoBehaviour
+public class CameraCreationController : MonoBehaviour
 {
     public CameraHandler cameraHandler;
     public Camera currentCamera;
@@ -18,14 +18,14 @@ public class SceneController : MonoBehaviour
     public const float minimumVerticalPosition = 1;
     public const float maximumVerticalPosition = 14;
 
-    private static SceneController instance;
-    public static SceneController Instance
+    private static CameraCreationController instance;
+    public static CameraCreationController Instance
     {
         get
         {
             if (instance == null)
             {
-                instance = GameObject.FindObjectOfType<SceneController>();
+                instance = GameObject.FindObjectOfType<CameraCreationController>();
             }
             return instance;
         }
@@ -35,6 +35,12 @@ public class SceneController : MonoBehaviour
     void Start()
     {
         
+    }
+
+    public void SaveCamera()
+    {
+        cameraHandler.SaveCamera(currentCamera.transform.position, currentCamera.transform.localEulerAngles, currentCamera.fieldOfView);
+
     }
 
     public void ChangeCameraRotation(float x, float y, float z)
