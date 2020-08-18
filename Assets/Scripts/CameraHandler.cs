@@ -5,25 +5,29 @@ using UnityEngine;
 
 public class CameraHandler : MonoBehaviour
 {
-    public GameObject newCamera;
-    // Start is called before the first frame update
-    void Start()
-    {
-        PlayerPrefs.SetInt("last camera index", -1);
+    public GameObject currentCamera;
 
-    }
-
-    public void SaveCamera(Vector3 cameraPosition, Vector3 cameraRotation, float lensLength)
+    public void SaveCamera(bool isCameraNew)
     {
+
+        Vector3 cameraPosition = currentCamera.transform.position;
+        Vector3 cameraRotation = currentCamera.transform.localEulerAngles;
+        float lensLength = currentCamera.GetComponent<Camera>().fieldOfView;
         string filePath = GetPath();
 
         //This is the writer, it writes to the filepath
         StreamWriter writer =  File.AppendText(filePath);
+        int newCameraIndex = PlayerPrefs.GetInt("last camera index", -1);
 
-        int newCameraIndex = PlayerPrefs.GetInt("last camera index", -1) + 1;
-        PlayerPrefs.SetInt("last camera index", newCameraIndex);
+        if (isCameraNew)
+        {
+            newCameraIndex = PlayerPrefs.GetInt("last camera index", -1) + 1;
+            PlayerPrefs.SetInt("last camera index", newCameraIndex);
+        }
 
-        writer.WriteLine(
+        PlayerPrefs.SetInt("current camera index", newCameraIndex);
+
+        writer.Write("\n"+
              newCameraIndex +
              "," + cameraPosition.x +
              "," + cameraPosition.y +
@@ -38,11 +42,13 @@ public class CameraHandler : MonoBehaviour
         writer.Close();
     }
 
-    public void LoadLastSavedCamera()
+    public void LoadSavedCamera()
     {
+        int cameraIndex  = PlayerPrefs.GetInt("current camera index");
+        print(cameraIndex);
         string file = ReadCSV();
         string[] lines = file.Split("\n"[0]);
-        string[] parts = lines[lines.Length-2].Split(","[0]);
+        string[] parts = lines[cameraIndex].Split(","[0]);
         float posX,posY,posZ,rotX,rotY,rotZ,fov;
         float.TryParse(parts[1], out posX);
         float.TryParse(parts[2], out posY);
@@ -52,9 +58,28 @@ public class CameraHandler : MonoBehaviour
         float.TryParse(parts[6], out rotZ);
         float.TryParse(parts[7], out fov);
 
-        newCamera.transform.position = new Vector3(posX, posY, posZ);
-        newCamera.transform.localEulerAngles = new Vector3(rotX, rotY, rotZ);
-        newCamera.GetComponent<Camera>().fieldOfView = fov;
+        currentCamera.transform.position = new Vector3(posX, posY, posZ);
+        currentCamera.transform.localEulerAngles = new Vector3(rotX, rotY, rotZ);
+        currentCamera.GetComponent<Camera>().fieldOfView = fov;
+    }
+
+    public void SaveScreenShot()
+    {
+        int resWidth = 1600;
+        int resHeight = 900;
+        RenderTexture rt = new RenderTexture(resWidth, resHeight, 24);
+        GetComponent<Camera>().targetTexture = rt;
+        Texture2D screenShot = new Texture2D(resWidth, resHeight, TextureFormat.RGB24, false);
+        GetComponent<Camera>().Render();
+        RenderTexture.active = rt;
+        screenShot.ReadPixels(new Rect(0, 0, resWidth, resHeight), 0, 0);
+        GetComponent<Camera>().targetTexture = null;
+        RenderTexture.active = null; // JC: added to avoid errors
+        Destroy(rt);
+        byte[] bytes = screenShot.EncodeToPNG();
+        string filename = Application.dataPath + "/ScreenShots/" + PlayerPrefs.GetInt("last camera index") + ".jpg";
+        File.WriteAllBytes(filename, bytes);
+        Debug.Log(string.Format("Took screenshot to: {0}", filename));
     }
 
     private string GetPath()

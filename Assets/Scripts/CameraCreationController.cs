@@ -31,16 +31,10 @@ public class CameraCreationController : MonoBehaviour
         }
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
     public void SaveCamera()
     {
-        cameraHandler.SaveCamera(currentCamera.transform.position, currentCamera.transform.localEulerAngles, currentCamera.fieldOfView);
-
+        cameraHandler.SaveCamera(true);
+        cameraHandler.SaveScreenShot();
     }
 
     public void ChangeCameraRotation(float x, float y, float z)
@@ -59,9 +53,4 @@ public class CameraCreationController : MonoBehaviour
         currentCamera.fieldOfView = length;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

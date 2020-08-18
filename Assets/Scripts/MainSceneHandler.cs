@@ -10,12 +10,6 @@ public class MainSceneHandler : MonoBehaviour
     void Start()
     {
         GameObject currentCamera = Instantiate(newCamera);
-        currentCamera.GetComponent<CameraHandler>().LoadLastSavedCamera();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        currentCamera.GetComponent<CameraHandler>().LoadSavedCamera();
     }
 }

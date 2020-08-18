@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -23,6 +25,9 @@ public class UIManager : MonoBehaviour
     public Text lensLengthText;
 
 
+    public GameObject contentInList;
+    public GameObject previewUIHolder;
+
 
     // Start is called before the first frame update
     void Start()
@@ -45,8 +50,6 @@ public class UIManager : MonoBehaviour
 
     void InitValues()
     {
-
-
             xRotationSlider.minValue = CameraCreationController.minimumAngleValue;
             xRotationSlider.maxValue = CameraCreationController.maximumAngleValue;
             xRotationSlider.value = CameraCreationController.Instance.intialCameraRotation.x;
@@ -75,9 +78,6 @@ public class UIManager : MonoBehaviour
             lensLengthSlider.minValue = CameraCreationController.minimumLensLength;
             lensLengthSlider.maxValue = CameraCreationController.maximumLensLegnth;
             lensLengthSlider.value = CameraCreationController.lensLength;
-        
-
-
     }
 
     void UpdateCameraRotation()
@@ -133,13 +133,49 @@ public class UIManager : MonoBehaviour
     public void CreateNewCamera()
     {
         SceneManager.LoadScene("Camera Creation");
-        //Main Scene
-        //Main Scene
     }
 
-    // Update is called once per frame
-    void Update()
+    public void LoadCamerasPreviews()
     {
-        
+        PlayerPrefs.SetInt("current camera index", 3);
+        PlayerPrefs.SetInt("last camera index", 3);
+
+        int lastCameraIndex = PlayerPrefs.GetInt("last camera index", -1)+1 ;
+        for(int cameraIndex= 0; cameraIndex< lastCameraIndex; cameraIndex++)
+        {
+            GameObject currentPreviewUIHolder = Instantiate(previewUIHolder, contentInList.transform);
+            currentPreviewUIHolder.GetComponent<CamerePreviewUiElementHandler>().elementIndex = cameraIndex;
+            int e = currentPreviewUIHolder.GetComponent<CamerePreviewUiElementHandler>().elementIndex; ;
+            currentPreviewUIHolder.GetComponent<CamerePreviewUiElementHandler>().viewButton.onClick.AddListener(() => LoadCamera(e));
+            currentPreviewUIHolder.GetComponent<CamerePreviewUiElementHandler>().previewImage.texture = ReadTextureFromFiles(cameraIndex + ".jpg");
+            currentPreviewUIHolder.GetComponent<CamerePreviewUiElementHandler>().buttonText.text = "Camera " + cameraIndex;
+
+        }
+    }
+
+    public void LoadCamera(int cameraIndex)
+    {
+        PlayerPrefs.SetInt("current camera index",cameraIndex);
+        SceneManager.LoadScene("Main Scene");
+    }
+
+    public Texture2D ReadTextureFromFiles(string filename)
+    {
+        Texture2D tex = null;
+
+        try
+        {
+            var bytes = File.ReadAllBytes(Application.dataPath + "/ScreenShots/" + filename);
+            tex = new Texture2D(1, 1);
+            tex.LoadImage(bytes);
+            Debug.Log("path does exist" + tex.width + " " + tex.height + "\n");
+        }
+        catch (Exception e)
+        {
+            Debug.Log($"There is Error: {e.ToString()}" + "\n");
+        }
+        return tex;
+
+
     }
 }
