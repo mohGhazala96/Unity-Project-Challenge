@@ -6,6 +6,17 @@ public class SceneController : MonoBehaviour
 {
     public CameraHandler cameraHandler;
     public Camera currentCamera;
+    public Vector3 intialCameraRotation { get { return new Vector3(0, 144.86f, 0); } }
+    public Vector3 initialCameraPosition { get { return new Vector3(-2.668f, 1.556f, 2.11f); } }
+    public const float lensLength = 60;
+    public const float minimumAngleValue = 0;
+    public const float maximumAngleValue = 360;
+    public const float minimumLensLength = 1;
+    public const float maximumLensLegnth = 144;
+    public const float minimum2DPosition = -14;
+    public const float maximum2DPosition = 14;
+    public const float minimumVerticalPosition = 1;
+    public const float maximumVerticalPosition = 14;
 
     private static SceneController instance;
     public static SceneController Instance
