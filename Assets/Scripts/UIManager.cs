@@ -115,7 +115,7 @@ public class UIManager : MonoBehaviour
     public void SaveCamera()
     {
         CameraCreationController.Instance.SaveCamera();
-        SceneManager.LoadScene("Main Scene");
+        SceneManager.LoadScene("Main Animation Scene");
     }
 
     public void SaveAnimatedCamera()
@@ -172,7 +172,7 @@ public class UIManager : MonoBehaviour
     public void LoadCamera(int cameraIndex)
     {
         PlayerPrefs.SetInt("current camera index",cameraIndex);
-        SceneManager.LoadScene("Main Scene");
+        SceneManager.LoadScene("Main Animation Scene");
     }
     public void LoadMainMenu()
     {
