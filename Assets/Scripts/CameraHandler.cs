@@ -31,7 +31,7 @@ public class CameraHandler : MonoBehaviour
             newCameraIndex = PlayerPrefs.GetInt("last camera index", -1) + 1;
             PlayerPrefs.SetInt("last camera index", newCameraIndex);
             PlayerPrefs.SetInt("current camera index", newCameraIndex);
-            writer.Write("\n" +newCameraIndex + currentCameraDetails);
+            writer.WriteLine(newCameraIndex + currentCameraDetails);
             writer.Flush();
             writer.Close();
         }
@@ -78,7 +78,6 @@ public class CameraHandler : MonoBehaviour
     public void LoadSavedCamera()
     {
         int cameraIndex  = PlayerPrefs.GetInt("current camera index");
-        print(cameraIndex);
         string file = ReadCSV();
         string[] lines = file.Split("\n"[0]);
         string[] parts = lines[cameraIndex].Split(","[0]);

@@ -13,8 +13,8 @@ public class CameraCreationController : MonoBehaviour
     public const float maximumAngleValue = 360;
     public const float minimumLensLength = 1;
     public const float maximumLensLegnth = 144;
-    public const float minimum2DPosition = -14;
-    public const float maximum2DPosition = 14;
+    public const float minimum2DPosition = -15;
+    public const float maximum2DPosition = 15;
     public const float minimumVerticalPosition = 1;
     public const float maximumVerticalPosition = 14;
 
@@ -41,6 +41,7 @@ public class CameraCreationController : MonoBehaviour
     {
         cameraHandler.SaveCamera(false);
         cameraHandler.SaveScreenShot(false);
+        Debug.Log("Current camera " + PlayerPrefs.GetInt("current camera index") + "has been overiden");
 
     }
 

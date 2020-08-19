@@ -35,6 +35,8 @@ public class UIManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        PlayerPrefs.SetInt("last camera index", -1);
+
         if (isInCreationScene)
         {
 
@@ -153,7 +155,6 @@ public class UIManager : MonoBehaviour
     {
         //PlayerPrefs.SetInt("current camera index", 3);
         //PlayerPrefs.SetInt("last camera index", 3);
-        PlayerPrefs.SetInt("last camera index", 4);
 
         int lastCameraIndex = PlayerPrefs.GetInt("last camera index", -1)+1 ;
         for(int cameraIndex= 0; cameraIndex< lastCameraIndex; cameraIndex++)
@@ -170,7 +171,6 @@ public class UIManager : MonoBehaviour
 
     public void LoadCamera(int cameraIndex)
     {
-        print(cameraIndex);
         PlayerPrefs.SetInt("current camera index",cameraIndex);
         SceneManager.LoadScene("Main Scene");
     }
@@ -188,7 +188,6 @@ public class UIManager : MonoBehaviour
             var bytes = File.ReadAllBytes(Application.dataPath + previewPath + filename);
             tex = new Texture2D(1, 1);
             tex.LoadImage(bytes);
-            Debug.Log("path does exist" + tex.width + " " + tex.height + "\n");
         }
         catch (Exception e)
         {
