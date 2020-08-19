@@ -32,6 +32,7 @@ public class CameraHandler : MonoBehaviour
             PlayerPrefs.SetInt("last camera index", newCameraIndex);
             PlayerPrefs.SetInt("current camera index", newCameraIndex);
             writer.WriteLine(newCameraIndex + currentCameraDetails);
+            print(newCameraIndex);
             writer.Flush();
             writer.Close();
         }

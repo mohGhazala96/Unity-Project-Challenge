@@ -35,7 +35,7 @@ public class UIManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        PlayerPrefs.SetInt("last camera index", -1);
+        //PlayerPrefs.SetInt("last camera index", -1);
 
         if (isInCreationScene)
         {
