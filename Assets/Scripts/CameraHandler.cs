@@ -65,10 +65,10 @@ public class CameraHandler : MonoBehaviour
 
     public void SaveScreenShot(bool isInGame)
     {
-        string screenShotName = "/ScreenShots/Previews/" + PlayerPrefs.GetInt("last camera index") + ".jpg";
+        string screenShotName = UIManager.previewPath + PlayerPrefs.GetInt("last camera index") + ".jpg";
             if (isInGame)
         {
-            screenShotName = "/ScreenShots/In Scene Screenshots/" +System.DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss") + ".jpg";
+            screenShotName = UIManager.inGameScreenPath + System.DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss") + ".jpg";
         }
 
         int resWidth = 1600;

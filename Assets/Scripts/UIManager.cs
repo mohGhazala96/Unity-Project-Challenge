@@ -28,11 +28,14 @@ public class UIManager : MonoBehaviour
     public GameObject contentInList;
     public GameObject previewUIHolder;
 
+    public  const string previewPath ="/ScreenShots/Previews/";
+    public  const string inGameScreenPath =  "/ScreenShots/In Scene Screenshots/";
+    public bool isInCreationScene;
 
     // Start is called before the first frame update
     void Start()
     {
-        if (xRotationSlider != null)
+        if (isInCreationScene)
         {
 
             xRotationSlider.onValueChanged.AddListener(delegate { UpdateCameraRotation(); });
@@ -175,7 +178,7 @@ public class UIManager : MonoBehaviour
 
         try
         {
-            var bytes = File.ReadAllBytes(Application.dataPath + "/ScreenShots/Previews/" + filename);
+            var bytes = File.ReadAllBytes(Application.dataPath + previewPath + filename);
             tex = new Texture2D(1, 1);
             tex.LoadImage(bytes);
             Debug.Log("path does exist" + tex.width + " " + tex.height + "\n");
