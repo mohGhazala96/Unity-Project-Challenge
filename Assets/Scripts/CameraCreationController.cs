@@ -37,6 +37,13 @@ public class CameraCreationController : MonoBehaviour
         cameraHandler.SaveScreenShot(false);
     }
 
+    public void SaveAnimatedCamera()
+    {
+        cameraHandler.SaveCamera(false);
+        cameraHandler.SaveScreenShot(false);
+
+    }
+
     public void SaveScreenShotDuringGame()
     {
         cameraHandler.SaveScreenShot(true);

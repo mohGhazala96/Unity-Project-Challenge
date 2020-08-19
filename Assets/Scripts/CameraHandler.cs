@@ -15,31 +15,64 @@ public class CameraHandler : MonoBehaviour
         float lensLength = currentCamera.GetComponent<Camera>().fieldOfView;
         string filePath = GetPath();
 
-        //This is the writer, it writes to the filepath
-        StreamWriter writer =  File.AppendText(filePath);
-        int newCameraIndex = PlayerPrefs.GetInt("last camera index", -1);
-
-        if (isCameraNew)
-        {
-            newCameraIndex = PlayerPrefs.GetInt("last camera index", -1) + 1;
-            PlayerPrefs.SetInt("last camera index", newCameraIndex);
-        }
-
-        PlayerPrefs.SetInt("current camera index", newCameraIndex);
-
-        writer.Write("\n"+
-             newCameraIndex +
+        int newCameraIndex;
+        string currentCameraDetails = 
              "," + cameraPosition.x +
              "," + cameraPosition.y +
              "," + cameraPosition.z +
              "," + cameraRotation.x +
              "," + cameraRotation.y +
              "," + cameraRotation.z +
-             "," + lensLength);
+             "," + lensLength;
 
-        writer.Flush();
-        //This closes the file
-        writer.Close();
+        if (isCameraNew)
+        {
+            StreamWriter writer = File.AppendText(filePath);
+            newCameraIndex = PlayerPrefs.GetInt("last camera index", -1) + 1;
+            PlayerPrefs.SetInt("last camera index", newCameraIndex);
+            PlayerPrefs.SetInt("current camera index", newCameraIndex);
+            writer.Write("\n" +newCameraIndex + currentCameraDetails);
+            writer.Flush();
+            writer.Close();
+        }
+        else
+        {
+            newCameraIndex= PlayerPrefs.GetInt("current camera index");
+
+            EditLine(newCameraIndex,newCameraIndex + currentCameraDetails);
+        }
+
+
+
+
+
+    }
+
+    void EditLine(int lineToEdit,string newData)
+    {
+        string file = ReadCSV();
+        string[] lines = file.Split("\n"[0]);
+        FileStream fileStream = new FileStream(GetPath(), FileMode.OpenOrCreate, FileAccess.ReadWrite);
+
+        using (var writer = new StreamWriter(fileStream))
+        {
+            for (int currentLine = 0; currentLine < lines.Length; currentLine++)
+            {
+                if (currentLine == lineToEdit)
+                {
+                    writer.WriteLine(newData);
+                }
+                else
+                {
+                    writer.WriteLine(lines[currentLine]);
+                }
+            }
+            writer.Flush();
+            //This closes the file
+            writer.Close();
+        }
+
+
     }
 
     public void LoadSavedCamera()
@@ -65,7 +98,7 @@ public class CameraHandler : MonoBehaviour
 
     public void SaveScreenShot(bool isInGame)
     {
-        string screenShotName = UIManager.previewPath + PlayerPrefs.GetInt("last camera index") + ".jpg";
+        string screenShotName = UIManager.previewPath + PlayerPrefs.GetInt("current camera index") + ".jpg";
             if (isInGame)
         {
             screenShotName = UIManager.inGameScreenPath + System.DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss") + ".jpg";
@@ -101,9 +134,11 @@ public class CameraHandler : MonoBehaviour
         string file = "";
         if (File.Exists(GetPath()))
         {
-            FileStream fileStream = new FileStream(GetPath(), FileMode.Open, FileAccess.ReadWrite);
+            FileStream fileStream = new FileStream(GetPath(), FileMode.Open, FileAccess.Read);
             StreamReader read = new StreamReader(fileStream);
             file = read.ReadToEnd();
+            read.Close();
+            fileStream.Close();
         }
         return file;
     }

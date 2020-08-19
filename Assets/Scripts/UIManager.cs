@@ -116,6 +116,11 @@ public class UIManager : MonoBehaviour
         SceneManager.LoadScene("Main Scene");
     }
 
+    public void SaveAnimatedCamera()
+    {
+        CameraCreationController.Instance.SaveAnimatedCamera();
+    }
+
     public void TakeScreenShot()
     {
         CameraCreationController.Instance.SaveScreenShotDuringGame();
@@ -146,8 +151,9 @@ public class UIManager : MonoBehaviour
 
     public void LoadCamerasPreviews()
     {
-        PlayerPrefs.SetInt("current camera index", 3);
-        PlayerPrefs.SetInt("last camera index", 3);
+        //PlayerPrefs.SetInt("current camera index", 3);
+        //PlayerPrefs.SetInt("last camera index", 3);
+        PlayerPrefs.SetInt("last camera index", 4);
 
         int lastCameraIndex = PlayerPrefs.GetInt("last camera index", -1)+1 ;
         for(int cameraIndex= 0; cameraIndex< lastCameraIndex; cameraIndex++)
@@ -164,6 +170,7 @@ public class UIManager : MonoBehaviour
 
     public void LoadCamera(int cameraIndex)
     {
+        print(cameraIndex);
         PlayerPrefs.SetInt("current camera index",cameraIndex);
         SceneManager.LoadScene("Main Scene");
     }
