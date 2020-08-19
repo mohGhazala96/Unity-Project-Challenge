@@ -66,4 +66,3 @@ This prefab has the CameraHandler attached to it. This prefab is instaitaited in
 * Preview UI Holder <br /> 
 This prefab has the CamerePreviewUiElementHandler attached to it. Prefabs of this type are instaitaited to show the camera preview with button underneath them in the Main Menu scene.
 
-
