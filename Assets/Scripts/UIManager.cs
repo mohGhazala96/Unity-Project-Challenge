@@ -32,7 +32,7 @@ public class UIManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (CameraCreationController.Instance != null)
+        if (xRotationSlider != null)
         {
 
             xRotationSlider.onValueChanged.AddListener(delegate { UpdateCameraRotation(); });
@@ -113,6 +113,12 @@ public class UIManager : MonoBehaviour
         SceneManager.LoadScene("Main Scene");
     }
 
+    public void TakeScreenShot()
+    {
+        CameraCreationController.Instance.SaveScreenShotDuringGame();
+
+    }
+
     public void ResetCameraParameters()
     {
         InitValues();
@@ -148,7 +154,7 @@ public class UIManager : MonoBehaviour
             int e = currentPreviewUIHolder.GetComponent<CamerePreviewUiElementHandler>().elementIndex; ;
             currentPreviewUIHolder.GetComponent<CamerePreviewUiElementHandler>().viewButton.onClick.AddListener(() => LoadCamera(e));
             currentPreviewUIHolder.GetComponent<CamerePreviewUiElementHandler>().previewImage.texture = ReadTextureFromFiles(cameraIndex + ".jpg");
-            currentPreviewUIHolder.GetComponent<CamerePreviewUiElementHandler>().buttonText.text = "Camera " + cameraIndex;
+            currentPreviewUIHolder.GetComponent<CamerePreviewUiElementHandler>().buttonText.text = "Camera " + (cameraIndex+1);
 
         }
     }
@@ -158,14 +164,18 @@ public class UIManager : MonoBehaviour
         PlayerPrefs.SetInt("current camera index",cameraIndex);
         SceneManager.LoadScene("Main Scene");
     }
+    public void LoadMainMenu()
+    {
+        SceneManager.LoadScene("Main Menu");
 
+    }
     public Texture2D ReadTextureFromFiles(string filename)
     {
         Texture2D tex = null;
 
         try
         {
-            var bytes = File.ReadAllBytes(Application.dataPath + "/ScreenShots/" + filename);
+            var bytes = File.ReadAllBytes(Application.dataPath + "/ScreenShots/Previews/" + filename);
             tex = new Texture2D(1, 1);
             tex.LoadImage(bytes);
             Debug.Log("path does exist" + tex.width + " " + tex.height + "\n");

@@ -63,8 +63,14 @@ public class CameraHandler : MonoBehaviour
         currentCamera.GetComponent<Camera>().fieldOfView = fov;
     }
 
-    public void SaveScreenShot()
+    public void SaveScreenShot(bool isInGame)
     {
+        string screenShotName = "/ScreenShots/Previews/" + PlayerPrefs.GetInt("last camera index") + ".jpg";
+            if (isInGame)
+        {
+            screenShotName = "/ScreenShots/In Scene Screenshots/" +System.DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss") + ".jpg";
+        }
+
         int resWidth = 1600;
         int resHeight = 900;
         RenderTexture rt = new RenderTexture(resWidth, resHeight, 24);
@@ -77,10 +83,13 @@ public class CameraHandler : MonoBehaviour
         RenderTexture.active = null; // JC: added to avoid errors
         Destroy(rt);
         byte[] bytes = screenShot.EncodeToPNG();
-        string filename = Application.dataPath + "/ScreenShots/" + PlayerPrefs.GetInt("last camera index") + ".jpg";
+        string filename = Application.dataPath + screenShotName;
         File.WriteAllBytes(filename, bytes);
         Debug.Log(string.Format("Took screenshot to: {0}", filename));
     }
+
+
+
 
     private string GetPath()
     {
@@ -99,5 +108,8 @@ public class CameraHandler : MonoBehaviour
         return file;
     }
 
-
+    private void Update()
+    {
+ 
+    }
 }
