@@ -35,8 +35,8 @@ public class UIManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //PlayerPrefs.SetInt("last camera index", -1);
-
+        //PlayerPrefs.SetInt("last camera index", 0);
+        //PlayerPrefs.SetInt("current camera index", 0);
         if (isInCreationScene)
         {
 
@@ -55,77 +55,77 @@ public class UIManager : MonoBehaviour
 
     void InitValues()
     {
-            xRotationSlider.minValue = CameraCreationController.minimumAngleValue;
-            xRotationSlider.maxValue = CameraCreationController.maximumAngleValue;
-            xRotationSlider.value = CameraCreationController.Instance.intialCameraRotation.x;
+            xRotationSlider.minValue = CameraController.minimumAngleValue;
+            xRotationSlider.maxValue = CameraController.maximumAngleValue;
+            xRotationSlider.value = CameraController.intialCameraRotation.x;
 
-            yRotationSlider.minValue = CameraCreationController.minimumAngleValue;
-            yRotationSlider.maxValue = CameraCreationController.maximumAngleValue;
-            yRotationSlider.value = CameraCreationController.Instance.intialCameraRotation.y;
+            yRotationSlider.minValue = CameraController.minimumAngleValue;
+            yRotationSlider.maxValue = CameraController.maximumAngleValue;
+            yRotationSlider.value = CameraController.intialCameraRotation.y;
 
-            zRotationSlider.minValue = CameraCreationController.minimumAngleValue;
-            zRotationSlider.maxValue = CameraCreationController.maximumAngleValue;
-            zRotationSlider.value = CameraCreationController.Instance.intialCameraRotation.z;
+            zRotationSlider.minValue = CameraController.minimumAngleValue;
+            zRotationSlider.maxValue = CameraController.maximumAngleValue;
+            zRotationSlider.value = CameraController.intialCameraRotation.z;
 
-            xPositionSlider.minValue = CameraCreationController.minimum2DPosition;
-            xPositionSlider.maxValue = CameraCreationController.maximum2DPosition;
-            xPositionSlider.value = CameraCreationController.Instance.initialCameraPosition.x;
+            xPositionSlider.minValue = CameraController.minimum2DPosition;
+            xPositionSlider.maxValue = CameraController.maximum2DPosition;
+            xPositionSlider.value = CameraController.Instance.initialCameraPosition.x;
 
-            yPositionSlider.minValue = CameraCreationController.minimumVerticalPosition;
-            yPositionSlider.maxValue = CameraCreationController.maximumVerticalPosition;
-            yPositionSlider.value = CameraCreationController.Instance.initialCameraPosition.y;
+            yPositionSlider.minValue = CameraController.minimumVerticalPosition;
+            yPositionSlider.maxValue = CameraController.maximumVerticalPosition;
+            yPositionSlider.value = CameraController.Instance.initialCameraPosition.y;
 
 
-            zPositionSlider.minValue = CameraCreationController.minimum2DPosition;
-            zPositionSlider.maxValue = CameraCreationController.maximum2DPosition;
-            zPositionSlider.value = CameraCreationController.Instance.initialCameraPosition.z;
+            zPositionSlider.minValue = CameraController.minimum2DPosition;
+            zPositionSlider.maxValue = CameraController.maximum2DPosition;
+            zPositionSlider.value = CameraController.Instance.initialCameraPosition.z;
 
-            lensLengthSlider.minValue = CameraCreationController.minimumLensLength;
-            lensLengthSlider.maxValue = CameraCreationController.maximumLensLegnth;
-            lensLengthSlider.value = CameraCreationController.lensLength;
+            lensLengthSlider.minValue = CameraController.minimumLensLength;
+            lensLengthSlider.maxValue = CameraController.maximumLensLegnth;
+            lensLengthSlider.value = CameraController.lensLength;
     }
 
     void UpdateCameraRotation()
     {
-        if (CameraCreationController.Instance != null)
+        if (CameraController.Instance != null)
         {
-            CameraCreationController.Instance.ChangeCameraRotation(xRotationSlider.value, yRotationSlider.value, zRotationSlider.value);
+            CameraController.Instance.ChangeCameraRotation(xRotationSlider.value, yRotationSlider.value, zRotationSlider.value);
             UpdateTextUi();
         }
     }
 
     void UpdateCameraPosition()
     {
-        if (CameraCreationController.Instance != null)
+        if (CameraController.Instance != null)
         {
-            CameraCreationController.Instance.ChangeCameraPosition(xPositionSlider.value, yPositionSlider.value, zPositionSlider.value);
+            CameraController.Instance.ChangeCameraPosition(xPositionSlider.value, yPositionSlider.value, zPositionSlider.value);
             UpdateTextUi();
         }
     }
 
     void UpdateCameraLens()
     {
-        if (CameraCreationController.Instance != null)
+        if (CameraController.Instance != null)
         {
-            CameraCreationController.Instance.ChangeCameraLensLegth(lensLengthSlider.value);
+            CameraController.Instance.ChangeCameraLensLegth(lensLengthSlider.value);
             UpdateTextUi();
         }
     }
 
     public void SaveCamera()
     {
-        CameraCreationController.Instance.SaveCamera();
+        CameraController.Instance.SaveCamera();
         SceneManager.LoadScene("Main Animation Scene");
     }
 
     public void SaveAnimatedCamera()
     {
-        CameraCreationController.Instance.SaveAnimatedCamera();
+        CameraController.Instance.SaveAnimatedCamera();
     }
 
     public void TakeScreenShot()
     {
-        CameraCreationController.Instance.SaveScreenShotDuringGame();
+        CameraController.Instance.SaveScreenShotDuringGame();
 
     }
 
@@ -153,18 +153,17 @@ public class UIManager : MonoBehaviour
 
     public void LoadCamerasPreviews()
     {
-        //PlayerPrefs.SetInt("current camera index", 3);
-        //PlayerPrefs.SetInt("last camera index", 3);
 
-        int lastCameraIndex = PlayerPrefs.GetInt("last camera index", -1)+1 ;
-        for(int cameraIndex= 0; cameraIndex< lastCameraIndex; cameraIndex++)
+
+        int lastCameraIndex = PlayerPrefs.GetInt("last camera index") ;
+        for(int cameraIndex= 1; cameraIndex<=lastCameraIndex; cameraIndex++)
         {
             GameObject currentPreviewUIHolder = Instantiate(previewUIHolder, contentInList.transform);
             currentPreviewUIHolder.GetComponent<CamerePreviewUiElementHandler>().elementIndex = cameraIndex;
             int e = currentPreviewUIHolder.GetComponent<CamerePreviewUiElementHandler>().elementIndex; ;
             currentPreviewUIHolder.GetComponent<CamerePreviewUiElementHandler>().viewButton.onClick.AddListener(() => LoadCamera(e));
             currentPreviewUIHolder.GetComponent<CamerePreviewUiElementHandler>().previewImage.texture = ReadTextureFromFiles(cameraIndex + ".jpg");
-            currentPreviewUIHolder.GetComponent<CamerePreviewUiElementHandler>().buttonText.text = "Camera " + (cameraIndex+1);
+            currentPreviewUIHolder.GetComponent<CamerePreviewUiElementHandler>().buttonText.text = "Camera " +cameraIndex;
 
         }
     }

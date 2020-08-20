@@ -12,6 +12,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Camera Creation.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 1
-    path: Assets/Scenes/Main Scene.unity
+    path: Assets/Scenes/Main Animation Scene.unity
     guid: 701426e980e514a41a2ee7e57e15ae80
   m_configObjects: {}

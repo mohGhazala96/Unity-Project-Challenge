@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class MainSceneHandler : MonoBehaviour
 {
-    public GameObject newCamera;
     GameObject currentCamera;
     GameObject tempTransformObject;
     Transform newTransform;
@@ -12,13 +11,10 @@ public class MainSceneHandler : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        currentCamera = Instantiate(newCamera);
-        currentCamera.GetComponent<CameraHandler>().LoadSavedCamera();
-        GetComponent<CameraCreationController>().cameraHandler = currentCamera.GetComponent<CameraHandler>();
-        GetComponent<CameraCreationController>().currentCamera = currentCamera.GetComponent<Camera>();
+        currentCamera = Instantiate(CameraController.Instance.LoadSavedCamera());
+        CameraController.Instance.currentCamera = currentCamera.GetComponent<Camera>();
         tempTransformObject = new GameObject();
         newTransform = tempTransformObject.transform;
-
     }
 
     private void Update()

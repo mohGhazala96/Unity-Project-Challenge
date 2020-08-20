@@ -1644,8 +1644,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68a16b4ad721b48b3992524a624e522d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  newCamera: {fileID: 8579164274380637637, guid: d1ca5244618434e73b8895bbbbb73d0c,
-    type: 3}
 --- !u!4 &1180656243
 Transform:
   m_ObjectHideFlags: 0
@@ -1672,7 +1670,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a987e315ce26a46b392a944495afc3af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraHandler: {fileID: 0}
   currentCamera: {fileID: 0}
 --- !u!1 &1366249617
 GameObject:
