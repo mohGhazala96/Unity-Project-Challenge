@@ -31,7 +31,7 @@ There are 3 main scenes to this application
 This scene allows the user to either create a new camera which will redirect him/her to Camera Creation scene ot View the list of the created cameras which will then show the list view.
 ![Main menu](https://github.com/mohGhazala96/Unity-Project-Challenge/blob/master/app%20main%20screens/Main%20Menu.png)
 
-Once the user clicks on View Created camera he will be showed a list of previewes (Preview UI Holder) of all avialable cameras . One can also click on the left top button to return back to the original view. User can click on the button under th camera previewes to choose the camera they want to animate.
+Once the user clicks on View Created camera he will be showed a list of previewes (Preview UI Holder) of all available cameras . One can also click on the left top button to return back to the original view. User can click on the button under th camera previewes to choose the camera they want to animate.
 ![List View](https://github.com/mohGhazala96/Unity-Project-Challenge/blob/master/app%20main%20screens/List%20view.png)
 
 ### Camera Creation
