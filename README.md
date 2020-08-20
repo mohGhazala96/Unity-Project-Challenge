@@ -35,11 +35,13 @@ Once the user clicks on View Created camera he will be showed a list of previewe
 ![List View](https://github.com/mohGhazala96/Unity-Project-Challenge/blob/master/app%20main%20screens/List%20view.png)
 
 ### Camera Creation
-This is the camera creation scene where one can adjust position,rotation, lens length using sliders. One can also reset the camera parameters to the default parameters. The last two button allows the user to save the camera and then get directed to the Main Animation scene where the user can animate the current camera, Or go back the main menu. Moreover, the white plane with they grey cube (camera) is where the user will be able to visualize how the camera is moving. Finally, the user can see what the actual camera view in the panel at the bottom of the screen.
+This is the camera creation scene where one can adjust position,rotation, lens length using sliders. One can also reset the camera parameters to the default parameters. The last two button allows the user to save the camera and then get directed to the Main Animation scene where the user can animate the current camera, Or go back the main menu. Moreover, the white plane with they grey cube (camera) is where the user will be able to visualize how the camera is moving. Finally, the user can see what the actual camera view in the panel at the bottom of the screen.  <br /> 
+The new camera is instaintiated from the current camera the user is adjusting its values. After the user creates a new camera, a prefab for it is created under reasources/saved cameras/. As well as it's preview is saved under Screenshots/Previews. 
 ![Camera Creation Scene](https://github.com/mohGhazala96/Unity-Project-Challenge/blob/master/app%20main%20screens/Creation.png)
 
 ### Main Animation Scene
-This scene allows the user to animate the camera using keyboard controls. One can view these keyboard controls by clicking on the Help button. One can also override the current camera parameters after animating the camera. Also one can save a screenshot which will be saved in the assets folder under ScreenShots/In Scene Screenshots/ . Finally one can return back to the main menu using the main menu button. 
+This scene allows the user to animate the camera using keyboard controls. One can view these keyboard controls by clicking on the Help button. One can also override the current camera parameters after animating the camera. Also one can save a screenshot which will be saved in the assets folder under ScreenShots/In Scene Screenshots/ . Finally one can return back to the main menu using the main menu button.  <br /> 
+The camera here is loaded from the saved camera prefabs in reasources/saved cameras/ . 
 ![Main Animation Scene](https://github.com/mohGhazala96/Unity-Project-Challenge/blob/master/app%20main%20screens/Animation%20Scene.png)
 
 These are the controls guide the user will be presented by after they click the help button.
@@ -48,10 +50,8 @@ These are the controls guide the user will be presented by after they click the 
 
 ## Scripts
 
-* CameraCreationController <br /> 
-This script is responsible for controlling the camera in the Camera Creation scene.
-* CameraHandler <br /> 
-This script is responsible for saving and overridng cameras. As well as taking and saving screenshots.
+* CameraController <br /> 
+This script is responsible for saving a new camera or editing a saved one. Also it is resposible for taking screenshots and previewes for the camera.
 * CamerePreviewUiElementHandler <br /> 
 This script is responsible for handilng a camera preview in the Main menu. (this is attached to Preview UI holder Prefab)
 * MainSceneHandler <br /> 
@@ -61,8 +61,6 @@ This script is responsible for everything in the Ui in all three scenes.
 
 ## Prefabs
 
-* Current Camera <br /> 
-This prefab has the CameraHandler attached to it. This prefab is instaitaited in the Main Animation Scene with the current camera (chosen or just created) parameters. <br /> 
 * Preview UI Holder <br /> 
 This prefab has the CamerePreviewUiElementHandler attached to it. Prefabs of this type are instaitaited to show the camera preview with button underneath them in the Main Menu scene.
 
