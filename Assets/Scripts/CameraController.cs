@@ -56,7 +56,7 @@ public class CameraController : MonoBehaviour
 
     public void SaveAnimatedCamera()
     {
-        SaveCamera(currentCamera.gameObject, true);
+        SaveCamera(currentCamera.gameObject, false);
         SaveScreenShot(currentCamera,false);
         Debug.Log("Current camera " + PlayerPrefs.GetInt("current camera index") + "has been overiden");
 
@@ -91,6 +91,7 @@ public class CameraController : MonoBehaviour
         {
             newCameraIndex = PlayerPrefs.GetInt("current camera index");
             PlayerPrefs.SetInt("current camera index", newCameraIndex);
+            print(newCameraIndex);
         }
 
         currentCamera.GetComponent<Camera>().rect = new Rect(0, 0, 1.0f, 1.0f);

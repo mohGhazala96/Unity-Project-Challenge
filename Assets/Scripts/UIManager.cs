@@ -153,7 +153,10 @@ public class UIManager : MonoBehaviour
 
     public void LoadCamerasPreviews()
     {
-
+        for(int child = contentInList.transform.childCount - 1; child >= 0; child--)
+        {
+            Destroy(contentInList.transform.GetChild(child).gameObject);
+        }
 
         int lastCameraIndex = PlayerPrefs.GetInt("last camera index") ;
         for(int cameraIndex= 1; cameraIndex<=lastCameraIndex; cameraIndex++)
